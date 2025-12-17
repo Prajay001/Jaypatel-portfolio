@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Explorer - JAY PATEL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+        .controls {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        #api-url-input {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #fetch-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #fetch-btn:hover {
+            background-color: #1e7e34;
+        }
+        #data-table-container {
+            overflow-x: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            white-space: nowrap; /* Keep content on one line */
+        }
+        #data-table th, #data-table td {
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        #data-table th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer; /* Implies sortable columns */
+        }
+        #data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #status-message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>External API Data Explorer</h1>
+        <p>Enter an API endpoint URL (must return a JSON array) and click Fetch.</p>
+        <div class="controls">
+            <input type="text" id="api-url-input" value="https://jsonplaceholder.typicode.com/users" placeholder="Enter API URL here...">
+            <button id="fetch-btn">Fetch Data</button>
+        </div>
+        <p id="status-message"></p>
+        <div id="data-table-container">
+            </div>
+    </div>
+
+    <script>
+        const apiUrlInput = document.getElementById('api-url-input');
+        const fetchBtn = document.getElementById('fetch-btn');
+        const tableContainer = document.getElementById('data-table-container');
+        const statusMessage = document.getElementById('status-message');
+
+        fetchBtn.addEventListener('click', fetchData);
+
+        async function fetchData() {
+            const url = apiUrlInput.value.trim();
+            statusMessage.textContent = 'Loading...';
+            tableContainer.innerHTML = ''; // Clear previous table
+
+            if (!url) {
+                statusMessage.textContent = 'Please enter a valid URL.';
+                return;
+            }
+
+            try {
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (!Array.isArray(data) || data.length === 0) {
+                    statusMessage.textContent = 'API returned no data or data is not a JSON array.';
+                    return;
+                }
+
+                renderTable(data);
+                statusMessage.textContent = `Successfully loaded ${data.length} records.`;
+
+            } catch (error) {
+                statusMessage.textContent = `Error fetching data: ${error.message}`;
+                console.error('Fetch error:', error);
+            }
+        }
+
+        function renderTable(data) {
+            // Get all unique keys from all objects to form the table headers
+            const allKeys = data.reduce((keys, item) => {
+                Object.keys(item).forEach(key => {
+                    if (!keys.includes(key)) {
+                        keys.push(key);
+                    }
+                });
+                return keys;
+            }, []);
+
+            // Create table structure
+            const table = document.createElement('table');
+            table.id = 'data-table';
+            
+            // 1. Create Header Row
+            const thead = table.createTHead();
+            const headerRow = thead.insertRow();
+            allKeys.forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key.toUpperCase();
+                headerRow.appendChild(th);
+            });
+
+            // 2. Create Body Rows
+            const tbody = table.createTBody();
+            data.forEach(item => {
+                const row = tbody.insertRow();
+                allKeys.forEach(key => {
+                    const cell = row.insertCell();
+                    
+                    let value = item[key];
+                    
+                    // Handle complex objects (like address or company in the example API)
+                    if (typeof value === 'object' && value !== null) {
+                        // Display simple JSON string for complex objects
+                        value = JSON.stringify(value).replace(/[{}"']/g, '').substring(0, 30) + '...';
+                    }
+                    
+                    cell.textContent = value === undefined ? '' : value;
+                });
+            });
+
+            tableContainer.innerHTML = '';
+            tableContainer.appendChild(table);
+        }
+        
+        // Load default data on page load
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+</body>
+</html>

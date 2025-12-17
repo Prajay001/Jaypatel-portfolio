@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+    <title>Achievements - JAY PATEL</title>
+    <style>
+        .reveal-button {
+            display: block;
+            padding: 1rem 2.8rem;
+            background-color: black;
+            border-radius: 4rem;
+            font-size: 1.6rem;
+            color: #808080;
+            letter-spacing: 0.3rem;
+            font-weight: 600;
+            border: 2px solid #808080;
+            transition: 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            margin-top: 50px;
+        }
+
+        .reveal-button:hover {
+            transform: scale(1.03);
+            background-color: #808080;
+            color: black;
+            box-shadow: 0 0 25px #808080;
+        }
+
+        .achievements-content {
+            display: none;
+            text-align: center;
+        }
+
+        .achievements-content img {
+            width: 30%; /* Adjust width as needed */
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .achievements-content a {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #808080;
+            text-decoration: none;
+            border: 2px solid #808080;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .achievements-content a:hover {
+            background-color: #808080;
+            color: black;
+        }
+
+        .back-button {
+            display: block;
+            padding: 1rem 2.8rem;
+            background-color: black;
+            border-radius: 4rem;
+            font-size: 1.6rem;
+            color: #808080;
+            letter-spacing: 0.3rem;
+            font-weight: 600;
+            border: 2px solid #808080;
+            transition: 0.3s ease;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.03);
+            background-color: #808080;
+            color: black;
+            box-shadow: 0 0 25px #808080;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">JAY PATEL</a>
+		<span class="hamburger" id="hamburgerMenu"><i class="fa-solid fa-bars"></i></span>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Me</a>
+            <a href="skills.html">Skills</a>
+            <a href="achievements.html" class="active">Achievements</a>
+            <a href="#">Resume</a>
+            <a href="#">CV</a>
+        </nav>
+    </header>
+
+    <!-- Achievements Section -->
+    <section class="achievements">
+        <h1 style="text-align: center; margin-top: 60px;"><U>My Achievements</u></h1>
+        <button class="reveal-button" id="revealButton">Microsoft Azure</button>
+
+        <div class="achievements-content" id="achievementsContent">
+            <h2>Achievements</h2>
+            <p>Here are some of my greatest achievements over the years:</p>
+            
+            <!-- Adding the big image -->
+			<img src="microsoft-certified-azure-fundamentals.png" alt="Azure-fundamentals">
+
+           
+
+            <!-- Adding a back button to go to ORACLE page -->
+            <button class="back-button" id="backButton">Back</button>
+        </div>
+    </section>
+
+    <script>
+        // Reveal Achievements content
+        document.getElementById("revealButton").addEventListener("click", function() {
+            // Hide the button
+            this.style.display = 'none';
+
+            // Show the achievements content
+            let achievementsContent = document.getElementById("achievementsContent");
+            achievementsContent.classList.add("show");
+        });
+
+        // Redirect to the ORACLE button page
+        document.getElementById("backButton").addEventListener("click", function() {
+            window.location.href = "achievements.html"; // Redirect back to the Oracle button page
+        });
+    </script>
+	
+	  <script>
+        // Existing JavaScript code
+
+        // Add hamburger menu toggle functionality
+        document.getElementById("hamburgerMenu").addEventListener("click", function() {
+            document.querySelector("nav").classList.toggle("active");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>About Me - JAY PATEL</title>
+    <style>
+        .code-container {
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .code-animation {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: black;
+            color: #00ff00;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+            white-space: pre;
+            text-align: left;
+            min-height: 150px;
+            overflow: hidden;
+        }
+
+        .reveal-button {
+            display: none;
+            padding: 1rem 2.8rem;
+            background-color: black;
+            border-radius: 4rem;
+            font-size: 1.6rem;
+            color: #808080;
+            letter-spacing: 0.3rem;
+            font-weight: 600;
+            border: 2px solid #808080;
+            transition: 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .reveal-button:hover {
+            transform: scale(1.03);
+            background-color: #808080;
+            color: black;
+            box-shadow: 0 0 25px #808080;
+        }
+
+        .about-me-content {
+            display: none;
+            text-align: center;
+        }
+
+        /* Reveal content in a flex layout */
+        .about-me-revealed {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            transition: all 0.5s ease;
+        }
+
+        .about-me-revealed img {
+            width: 400px;
+            border-radius: 200%;
+            margin-right: 50px;
+        }
+
+        .about-me-revealed p {
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        /* Hide typing animation and button */
+        .hide-on-reveal {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">JAY PATEL</a>
+		<span class="hamburger" id="hamburgerMenu"><i class="fa-solid fa-bars"></i></span>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="About.html" class="active">About Me</a>
+            <a href="skills.html">Skills</a>
+            <a href="achievements.html">Achievements</a>
+            <a href="#">Resume</a>
+            <a href="#">CV</a>
+        </nav>
+    </header>
+
+    <!-- About Me Section -->
+    <section class="about-me">
+        <div class="code-container" id="code-animation">
+            <div class="code-animation" id="codeText"></div>
+        </div>
+        <button class="reveal-button" id="revealButton">Explore About Me</button>
+
+        <!-- Hidden content to be revealed -->
+        <div class="about-me-content about-me-revealed" id="aboutMeContent">
+            <img src="R.jpg" alt="Profile Photo"> 
+            <div>
+                <h1>About Me</h1></br></br></br></br></br>
+                <p>I’m Jay Patel, a Project Coordinator with expertise in managing complex projects and delivering impactful results.</br> 
+                My skills in Languages: C/C++, Java, Python, JavaScript, SQL, PHP, HTML.</br>
+			     Technologies & Tools: ReactJS
+			     and advanced project management help me navigate the challenges of modern software development and leadership.</br>
+                I’m passionate about collaborating with teams to achieve innovative solutions and am always open to new opportunities in the tech space.</br>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const codeLines = [
+            "// Welcome to my dome....",
+            "Name = \"Jay Yagneshkumar Patel\";",
+            "Role = \"Software Developer\";",
+            "Skills = [\"Java\", \"HTML\", \"PHP\", \".Net\", \"Python\"];",
+            "console.log(\"About me\");",
+            "// Profile Ready..."
+        ];
+
+        let currentLine = 0;
+        let currentChar = 0;
+        const typingSpeed = 12;
+        const codeText = document.getElementById("codeText");
+
+        function typeLine() {
+            if (currentLine < codeLines.length) {
+                const line = codeLines[currentLine];
+                if (currentChar < line.length) {
+                    codeText.innerHTML += line[currentChar];
+                    currentChar++;
+                    setTimeout(typeLine, typingSpeed);
+                } else {
+                    codeText.innerHTML += "<br/>";
+                    currentChar = 0;
+                    currentLine++;
+                    setTimeout(typeLine, typingSpeed);
+                }
+            } else {
+                document.getElementById("revealButton").style.display = "block"; // Show button after animation completes
+            }
+        }
+
+        window.onload = function() {
+            typeLine(); // Start typing animation on page load
+        };
+
+        // Reveal the About Me content
+        document.getElementById("revealButton").addEventListener("click", function() {
+            // Hide typing animation and the button directly
+            document.getElementById("code-animation").style.display = 'none';
+            this.style.display = 'none'; // Directly hide the button
+
+            // Show the about me content with a slight delay
+            setTimeout(function() {
+                let aboutMeContent = document.getElementById("aboutMeContent");
+                aboutMeContent.style.display = "flex"; // Display content with flexbox layout
+            }, 500); // You can adjust the delay here if necessary
+        });
+    </script>
+	
+	  <script>
+        // Existing JavaScript code
+
+        // Add hamburger menu toggle functionality
+        document.getElementById("hamburgerMenu").addEventListener("click", function() {
+            document.querySelector("nav").classList.toggle("active");
+        });
+    </script>
+</body>
+</html>

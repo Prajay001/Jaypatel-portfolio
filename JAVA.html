@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Projects - JAY PATEL</title>
+    <style>
+        body {
+            text-align: center;
+            /* Ensure the body font matches your site's style */
+            font-family: Arial, sans-serif; 
+            background-color: #121212; /* Dark background to match black theme */
+            color: white; 
+        }
+
+        /* --- Existing/General Styles --- */
+        .calc-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            margin-top: 30px;
+            background-color: black;
+            color: #808080;
+            border-radius: 4rem;
+            font-size: 1.5rem;
+            border: 2px solid #808080;
+            text-decoration: none;
+            letter-spacing: 0.2rem;
+            transition: 0.3s ease;
+        }
+
+        .calc-btn:hover {
+            background-color: #808080;
+            color: black;
+            transform: scale(1.05);
+        }
+        
+        .pro-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            margin-top: 30px;
+            background-color: black;
+            color: #808080;
+            border-radius: 4rem;
+            font-size: 1.5rem;
+            border: 2px solid #808080;
+            text-decoration: none;
+            letter-spacing: 0.2rem;
+            transition: 0.3s ease;
+        }
+
+        .pro-btn:hover {
+            background-color: #808080;
+            color: black;
+            transform: scale(1.05);
+        }
+
+        /* Adjusting header/logo for dark theme visibility (assuming base style.css doesn't cover this) */
+        header {
+            background-color: black;
+            padding: 1rem 20px;
+            /* Ensure logo/links are styled properly */
+        }
+        .logo {
+             color: white !important; /* Make sure the logo is visible */
+        }
+        nav a {
+            color: #808080 !important; /* Make sure links are visible */
+        }
+        
+        /* --- NEW PROJECT SECTION STYLES --- */
+
+        .projects-container {
+            display: grid; /* Use CSS Grid for responsive layout */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 300px wide minimum cards */
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto; /* Center the container */
+        }
+
+        .project-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px; /* Increased padding for a larger target area */
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a); /* Subtle dark gradient background */
+            color: white;
+            border-radius: 10px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            border: 2px solid #555; /* Subtle border */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Lifted appearance */
+            transition: 0.3s ease;
+            min-height: 150px; /* Ensure cards have a minimum height */
+        }
+
+        .project-btn:hover {
+            background: linear-gradient(135deg, #007bff, #0056b3); /* Bright color on hover */
+            color: white;
+            border-color: #007bff;
+            transform: translateY(-5px) scale(1.02); /* Lift and enlarge slightly */
+            box-shadow: 0 12px 20px rgba(0, 123, 255, 0.3); /* Blue shadow effect */
+        }
+
+        /* Responsive menu styles (copied from previous answer to ensure they work) */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px; 
+                left: 0;
+                width: 100%;
+                background-color: black;
+                z-index: 1000;
+            }
+            nav.active {
+                display: flex;
+            }
+            nav a {
+                padding: 15px;
+                text-align: center;
+                border-bottom: 1px solid #333;
+            }
+            .hamburger {
+                display: block !important;
+                color: #808080;
+                font-size: 2rem;
+                cursor: pointer;
+            }
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .hamburger {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">JAY PATEL</a>
+        <span class="hamburger" id="hamburgerMenu"><i class="fa-solid fa-bars"></i></span>
+        <nav>
+            <a href="index.html"> Home</a>
+            <a href="about.html">About Me</a>
+            <a href="skills.html">Skills</a>
+            <a href="achievements.html">Achievements</a>
+            <a href="#" >Resume</a>
+            <a href="#" >CV</a>
+        </nav>
+    </header></br></br></br></br>
+    
+    </br></br></br></br><h1>My Projects</h1></br></br>
+    
+    <div class="projects-container">
+        <a href="Coming_Soon" class="project-btn">Coming_Soon</a>
+        <a href="Coming_Soon" class="project-btn">Coming_Soon</a>
+        <a href="Coming_Soon" class="project-btn">Coming_Soon</a>
+        <a href="Coming_Soon" class="project-btn">Coming_Soon</a>
+        <a href="Coming_Soon" class="project-btn">Coming Soon</a>
+        
+        
+        <script>
+            // Existing JavaScript code
+
+            // Add hamburger menu toggle functionality
+            document.getElementById("hamburgerMenu").addEventListener("click", function() {
+                document.querySelector("nav").classList.toggle("active");
+            });
+        </script>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Planner - JAY PATEL</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f8ff;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #004d99;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        #primary-time, #primary-zone {
+            padding: 10px;
+            font-size: 1.1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .zone-card {
+            background: #e6f0ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #007bff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .zone-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .converted-time {
+            font-size: 1.5em;
+            color: #004d99;
+            margin-top: 5px;
+        }
+        .day-shift {
+            color: #dc3545; /* Red for next/previous day */
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Global Meeting Time Planner</h1>
+        <div class="input-group">
+            <label for="primary-time">Time:</label>
+            <input type="time" id="primary-time" value="09:00">
+            <label for="primary-zone">Time Zone:</label>
+            <select id="primary-zone">
+                </select>
+        </div>
+        
+        <div class="results-grid" id="results-grid">
+            </div>
+    </div>
+
+    <script>
+        const { DateTime, Settings } = luxon;
+        const primaryTimeInput = document.getElementById('primary-time');
+        const primaryZoneSelect = document.getElementById('primary-zone');
+        const resultsGrid = document.getElementById('results-grid');
+
+        // Target Zones for Conversion (e.g., your common meeting locations)
+        const targetZones = [
+            'America/New_York', 'Europe/London', 'Asia/Tokyo', 
+            'Australia/Sydney', 'Europe/Berlin', 'America/Los_Angeles'
+        ];
+
+        // 1. Populate Zone Dropdowns
+        function populateZones() {
+            // Get current local zone
+            const localZone = DateTime.local().zoneName;
+            
+            // Add the local zone to the target zones if it's not there already
+            if (!targetZones.includes(localZone)) {
+                targetZones.unshift(localZone);
+            }
+
+            // Populate primary zone selector
+            primaryZoneSelect.innerHTML = targetZones.map(zone => 
+                `<option value="${zone}" ${zone === localZone ? 'selected' : ''}>${zone.replace(/_/g, ' ')}</option>`
+            ).join('');
+        }
+
+        // 2. Core Conversion Logic
+        function convertTimes() {
+            const timeValue = primaryTimeInput.value;
+            const primaryZone = primaryZoneSelect.value;
+            resultsGrid.innerHTML = '';
+            
+            if (!timeValue) return;
+
+            // Create the primary DateTime object
+            const [hour, minute] = timeValue.split(':');
+            const primaryDateTime = DateTime.local().setZone(primaryZone).set({ hour: parseInt(hour), minute: parseInt(minute), second: 0, millisecond: 0 });
+
+            if (!primaryDateTime.isValid) return;
+
+            targetZones.forEach(targetZone => {
+                const convertedTime = primaryDateTime.setZone(targetZone);
+                
+                // Check for day shift
+                let dayShift = '';
+                if (convertedTime.startOf('day').toMillis() > primaryDateTime.startOf('day').toMillis()) {
+                    dayShift = ' (+1 Day)';
+                } else if (convertedTime.startOf('day').toMillis() < primaryDateTime.startOf('day').toMillis()) {
+                     dayShift = ' (-1 Day)';
+                }
+
+                // Create the display card
+                const card = document.createElement('div');
+                card.classList.add('zone-card');
+                card.innerHTML = `
+                    <div class="zone-name">${targetZone.replace(/_/g, ' ')}</div>
+                    <div class="converted-time">${convertedTime.toFormat('hh:mm a')}</div>
+                    <div class="day-shift">${convertedTime.toFormat('MMM dd')}${dayShift}</div>
+                `;
+                resultsGrid.appendChild(card);
+            });
+        }
+
+        // 3. Attach Listeners and Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateZones();
+            convertTimes(); // Initial calculation
+        });
+
+        primaryTimeInput.addEventListener('change', convertTimes);
+        primaryZoneSelect.addEventListener('change', convertTimes);
+    </script>
+</body>
+</html>
